@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "333507641175",
+    "project_id": "church-for-us",
+    "storage_bucket": "church-for-us.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333507641175:android:c11cc1cdfe9bece48b4812",
+        "android_client_info": {
+          "package_name": "com.example.church_stream"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfOeXpRQbTAbUPIVpiCgNXYMmupRs0Ot0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333507641175:android:f9e692bea88710328b4812",
+        "android_client_info": {
+          "package_name": "com.example.webrtc_practice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfOeXpRQbTAbUPIVpiCgNXYMmupRs0Ot0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333507641175:android:658a4a1a3aabf5238b4812",
+        "android_client_info": {
+          "package_name": "dev.flutterexplained.webrtc_tutorial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfOeXpRQbTAbUPIVpiCgNXYMmupRs0Ot0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
