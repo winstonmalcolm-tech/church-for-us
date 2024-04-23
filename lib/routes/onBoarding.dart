@@ -1,3 +1,4 @@
+import "package:church_stream/routes/auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:lottie/lottie.dart";
@@ -69,16 +70,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
               Align(
                 alignment: Alignment.center,
                 child: SizedBox(
-                  width: 150,
+                  width: 200,
                   height: 60,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 138, 126, 20),
+                      foregroundColor: Colors.white,
                       shape: StadiumBorder()
                     ),
                     onPressed: () {
-                  
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Authentication()));
                     }, 
-                    child: const Text("Register")
+                    child: const Text("Get Started", style: TextStyle(fontSize: 23, letterSpacing: 1.5),)
                   ),
                 ),
               )
@@ -95,7 +98,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
 
                   SmoothPageIndicator(
                     controller: pageController, 
-                    count: 4,
+                    count: onBoardingItems.length,
                     effect: const WormEffect(activeDotColor: Colors.amberAccent, type: WormType.thin),
                     onDotClicked: (doubleindex) {
                       pageController.animateToPage(
@@ -204,7 +207,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
             const SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Text(displayFiveText, textAlign: TextAlign.center,style: const TextStyle(fontSize: 23),),
+              child: Text(displayFiveText, textAlign: TextAlign.center,style: const TextStyle(fontSize: 40),),
             )
           ],
         ),
