@@ -119,7 +119,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
                         
                       ),
                       onPressed: () {
-                        pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.bounceIn);
+                        pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.linear);
                       }, 
                       
                       child: const Icon(Icons.arrow_forward, color: Colors.white,)),
