@@ -1,10 +1,7 @@
 import "dart:async";
-
+import "package:church_stream/routes/homepage.dart";
 import "package:email_validator/email_validator.dart";
-import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
-import "package:flutter/scheduler.dart";
-import "package:flutter/widgets.dart";
 
 class Authentication extends StatefulWidget {
   const Authentication({super.key});
@@ -19,7 +16,8 @@ class _AuthenticationState extends State<Authentication> {
   bool showForm = false;
   late double _width;
 
-  final _key = GlobalKey<FormState>();
+  final _registerKey = GlobalKey<FormState>();
+  final _loginKey = GlobalKey<FormState>();
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -54,13 +52,15 @@ class _AuthenticationState extends State<Authentication> {
               child: Container(
               
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 199, 180, 12),
+                  color: Color.fromARGB(255, 156, 120, 9),
                   borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                 )
                 
               )
             ),
             const SizedBox(height: 20,),
+
+           
             Expanded(
               flex: 6,
               child: Padding(
@@ -71,13 +71,13 @@ class _AuthenticationState extends State<Authentication> {
                     height: MediaQuery.of(context).size.height,
                     width:  _width,
                     decoration: BoxDecoration(
-                      color: Colors.amber,
+                      color: Colors.transparent,
                       borderRadius: BorderRadius.circular(20)
                     ),
                     child: (showForm) ? null : const Align(alignment: Alignment.center,child: Text("WELCOME", style: TextStyle(fontSize: 30))),
                     
                   ), 
-                  secondChild: register(), 
+                  secondChild: (newUser) ? register() : login(), 
                   crossFadeState: (!showForm) ? CrossFadeState.showFirst : CrossFadeState.showSecond, 
                   duration: const Duration(milliseconds: 2000),
                 )
@@ -128,10 +128,53 @@ class _AuthenticationState extends State<Authentication> {
   }
 
 
-  Form register() {
-
+  Form login() {
     return Form(
-      key: _key,
+      key: _loginKey,
+      child: Column(
+        children: [
+          TextFormField(
+              controller: email,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter email";
+                } else if (!EmailValidator.validate(value)) {
+                  return "Please enter valid email";
+                }
+              },
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "church@gmail.com",
+                label: Text("Email")
+              ),
+            ),
+
+            const SizedBox(height: 20,),
+
+            SizedBox(
+              height: 60,
+              width: 200,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 156, 120, 9),
+                  foregroundColor: Colors.white,
+                  fixedSize: const Size(150, 60)
+            
+                ),
+                onPressed: () { 
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
+                }, 
+                child: const Text("Login", style: TextStyle(fontSize: 20),)),
+            ),
+        ],
+      )
+    );
+  }
+
+  Form register() {
+    return Form(
+      key: _registerKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -157,6 +200,7 @@ class _AuthenticationState extends State<Authentication> {
                 if (value == null || value.isEmpty) {
                   return "Please enter last name";
                 }
+                return null;
               },
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -183,55 +227,21 @@ class _AuthenticationState extends State<Authentication> {
                 label: Text("Email")
               ),
             ),
-        
-            const SizedBox(height: 20,),
-        
-            DropdownButtonFormField(
-              value: "1",
-              decoration: const InputDecoration(
-                border: OutlineInputBorder()
-              ),
-              icon: const Icon(Icons.keyboard_arrow_down),
-              items: const [
-                DropdownMenuItem(value: "1", child: Text("Member")),
-                DropdownMenuItem(value: "2", child: Text("Church Admin"))
-              ], 
-              onChanged: (value) {
-                setState(() {
-                  isMember.text = value!;
-                });
-                
-              }
-            ),
-        
-            if (isMember.text == "2") ... [
-              const SizedBox(height: 20,),
-        
-              TextFormField(
-                  controller: churchName,
-                  keyboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Please enter email";
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "name of church",
-                    label: Text("Church name"),
-                    
-                  ),
-                )
-            ],
-        
+
             const SizedBox(height: 20,),
         
             SizedBox(
               height: 60,
-              width: 150,
+              width: 200,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 156, 120, 9),
+                  foregroundColor: Colors.white,
+                  fixedSize: const Size(150, 60)
+            
+                ),
                 onPressed: () { 
-        
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const Home()));
                 }, 
                 child: const Text("Register", style: TextStyle(fontSize: 20),)),
             ),

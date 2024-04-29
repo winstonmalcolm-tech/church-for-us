@@ -79,7 +79,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
                       shape: StadiumBorder()
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Authentication()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const Authentication()));
                     }, 
                     child: const Text("Get Started", style: TextStyle(fontSize: 23, letterSpacing: 1.5),)
                   ),
