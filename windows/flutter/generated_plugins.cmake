@@ -3,8 +3,14 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  awesome_notifications
   cloud_firestore
+  connectivity_plus
   firebase_core
+  flutter_webrtc
+  permission_handler_windows
+  rive_common
+  zego_express_engine
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

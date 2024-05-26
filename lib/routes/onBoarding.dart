@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:lottie/lottie.dart";
 import 'package:google_fonts/google_fonts.dart';
+import "package:permission_handler/permission_handler.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
 
@@ -34,6 +35,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
     initialPage: 0
   );
 
+  Future<void> getPerimission() async {
+    
+    await Permission.camera.request();
+    await Permission.audio.request();
+    await Permission.microphone.request();
+    await Permission.storage.request();
+  }
+
   @override
   void initState() {
     onBoardingItems = [
@@ -43,6 +52,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
       display_four(),
       display_five()
     ];
+
+    Future.value(getPerimission());
 
     super.initState();
   }

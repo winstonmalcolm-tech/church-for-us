@@ -42,6 +42,21 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   google_fonts: ^6.2.1
   email_validator: ^2.1.17
+  hive: ^2.2.3
+  hive_generator: ^2.0.1
+  hive_flutter: ^1.1.0
+  firebase_messaging: ^14.9.1
+  stream_video_push_notification: ^0.3.9
+  http: ^1.2.1
+  permission_handler: ^11.3.1
+  uuid: ^4.4.0
+  zego_uikit_prebuilt_live_streaming: ^3.5.4
+  zego_uikit_prebuilt_video_conference: ^2.7.4
+  provider: ^6.1.2
+  rive: ^0.13.4
+  awesome_notifications: ^0.8.2
+  googleapis_auth: ^1.6.0
+  device_screen_recorder: ^0.0.4
   
   
 
@@ -55,6 +70,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  build_runner: ^2.4.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
