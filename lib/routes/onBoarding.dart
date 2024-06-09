@@ -27,6 +27,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
   final displayThreeText = "Host meetings in the app";
   final displayFourText = "Rewatch meetings and church streams anytime, anywhere.";
   final displayFiveText = "Let's get started!";
+  final displaySixText = "This app integrates artificial intelligence to provide personalized guidance and support for religious inquiries.";
+
+
   late List<Widget> onBoardingItems;
   int index = 0;
   bool isLastPage = false;
@@ -50,7 +53,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
       display_two(),
       display_three(),
       display_four(),
-      display_five()
+      display_five(),
+      display_six()
     ];
 
     Future.value(getPerimission());
@@ -69,7 +73,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
               controller: pageController,
               onPageChanged: (index) {
                 setState(() {
-                  isLastPage = index == 4;
+                  isLastPage = index == 5;
                 });
               },
               children: onBoardingItems,
@@ -103,7 +107,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
 
                   TextButton(
                     onPressed: () {
-                      pageController.jumpToPage(4);
+                      pageController.jumpToPage(5);
                     }, child: const Text("Skip", style: TextStyle(fontSize: 20, color: Colors.amberAccent),)
                   ),
 
@@ -155,7 +159,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
             children: [ 
               Lottie.asset("assets/animated_church.json", height: 350),
               const SizedBox(height: 20,),
-              Text(displayOneText, style: GoogleFonts.mulish(textStyle: const TextStyle(fontSize: 40)),)
+              Text(displayOneText, style: GoogleFonts.mulish(textStyle: const TextStyle(fontSize: 30)),)
             ],
           ),
         ),
@@ -207,8 +211,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
       );
     }
 
-
     Container display_five() {
+      return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LottieBuilder.asset("assets/ai.json", height: 350,),
+            const SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Text(displaySixText, textAlign: TextAlign.center,style: const TextStyle(fontSize: 23),),
+            )
+          ],
+        ),
+      );
+    }
+
+    Container display_six() {
       return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

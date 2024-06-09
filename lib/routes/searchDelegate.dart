@@ -60,7 +60,7 @@ class SearchChurchDelegate extends SearchDelegate<Church?> {
           }
 
           List<Church> suggestions = snapshot.data!.where((church) {
-            return church.churchName.toLowerCase().contains(query.toLowerCase());
+            return (church.churchName.toLowerCase().contains(query.toLowerCase()) && (Provider.of<Viewer>(context).churchDocID != church.churchDocID));
           }).toList();
 
           return ListView.builder(
@@ -68,7 +68,7 @@ class SearchChurchDelegate extends SearchDelegate<Church?> {
               itemBuilder: (context, index) {
                 Church church = suggestions[index];
                 
-                return (Provider.of<Viewer>(context).churchDocID != church.churchDocID) ? ListTile(
+                return ListTile(
                   title: Text(church.churchName),
                   onTap: () {
                     query = church.churchName;
@@ -76,7 +76,7 @@ class SearchChurchDelegate extends SearchDelegate<Church?> {
 
                     close(context, searchResult);
                   },
-                ) : null;
+                );
               },
             );
         } else {

@@ -8,9 +8,8 @@ import "package:lottie/lottie.dart";
 import "package:provider/provider.dart";
 
 class AllChurches extends StatefulWidget {
-  final Future<List<Video>>? streamLists;
 
-  const AllChurches({super.key, required this.streamLists});
+  const AllChurches({super.key});
 
   @override
   State<AllChurches> createState() => _AllChurchesState();
@@ -23,7 +22,6 @@ class _AllChurchesState extends State<AllChurches> {
 
   @override
   void initState() {
-    
      _viewer = Viewer.fromMap(_box.get("cache"));
     super.initState();
   }
@@ -32,36 +30,29 @@ class _AllChurchesState extends State<AllChurches> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: FutureBuilder(
-          future: widget.streamLists,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection("videos").snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data == null || snapshot.data!.isEmpty) {
-                return SingleChildScrollView(
-                  child: Center(
-                      child: Lottie.asset("assets/no_video.json", height: 250)
-                  ),
+
+              if (snapshot.data == null || snapshot.data!.size < 1) {
+                return Center(
+                    child: Lottie.asset("assets/no_video.json", height: 250)
                 );
               }
 
+              List<dynamic> videos = snapshot.data!.docs.toList().where((video) => video["isConference"] == false).toList();
+
               return ListView.separated(
-                itemCount: snapshot.data!.length,
+                itemCount: videos.length,
                 separatorBuilder: (context, index) => const SizedBox(height: 10,),
                 itemBuilder: (context, index) {
-                  Video video = snapshot.data![index];
 
-                  if (!video.isConference) {
-                    return churchCard(video);
-                  }
+                  Video video = Video(churchDocID: videos[index]["churchDocID"], videoDocID: videos[index]["videoDocID"], isLive: videos[index]["isLive"], link: videos[index]["link"], title: videos[index]["title"], isConference: videos[index]["isConference"], churchName: videos[index]["churchName"]);
 
-                  return null;
+                  return churchCard(video);
+                  
                 },
               );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
           },
         ),
       ),
@@ -72,7 +63,7 @@ class _AllChurchesState extends State<AllChurches> {
     return InkWell(
       onTap: () async {
         if (video.isLive) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => LiveStream(liveID: video.link, isHost: false, videoDocID: null, title: null,)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => LiveStream(liveID: video.link, isHost: false, videoDocID: video.videoDocID)));
         } else {
           //Navigate to recording page
           _showAlertDialog(context);
@@ -86,22 +77,41 @@ class _AllChurchesState extends State<AllChurches> {
             borderRadius: const BorderRadius.all(Radius.circular(20))),
         child: Column(
           children: [
-            Container(
-                height: 200,
-                decoration: const BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20))),
-                width: MediaQuery.of(context).size.width,
-                child: ClipRRect(
+            Stack(
+              children: [ 
+                Container(
+                  height: 200,
+                  decoration: const BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20))),
+                  width: MediaQuery.of(context).size.width,
+                  child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(20),
                         topLeft: Radius.circular(20)),
                     child: Image.asset(
                       "assets/praise.jpg",
                       fit: BoxFit.cover,
-                    ))),
+                    ),
+                  )
+                ),
+
+                if (video.isLive)
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.play_arrow, color: Colors.amber,),
+                        Text("Live", style: TextStyle(color: Colors.amber),)
+                      ],
+                    ),
+                  )
+
+              ]
+            ),
             ListTile(
               tileColor: Colors.white,
               title: Text(video.title),

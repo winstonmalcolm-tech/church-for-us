@@ -23,7 +23,7 @@ class _SubscribedChurchesState extends State<SubscribedChurches> {
 
             if (snapshot.data == null || snapshot.data!.isEmpty) {
               return const Center(
-                child: Text("No subscriptions", style: TextStyle(fontSize: 20),),
+                child: SingleChildScrollView(child: Text("No subscriptions", style: TextStyle(fontSize: 20),)),
               );
             }
 

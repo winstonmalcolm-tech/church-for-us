@@ -124,85 +124,82 @@ class _AuthenticationState extends State<Authentication> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Container(
-              
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 156, 120, 9),
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
-                )
-                
-              )
+      body: Column(
+        children: [
+          Container(
+            height: 260,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 156, 120, 9),
+              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
             ),
-            const SizedBox(height: 20,),
-
-           
-            Expanded(
-              flex: 6,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AnimatedCrossFade(
-                  excludeBottomFocus: false,
-                  firstChild: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width:  _width,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: (showForm) ? null : const Align(alignment: Alignment.center,child: Text("WELCOME", style: TextStyle(fontSize: 30))),
-                    
-                  ), 
-                  secondChild: (newUser) ? register() : login(), 
-                  crossFadeState: (!showForm) ? CrossFadeState.showFirst : CrossFadeState.showSecond, 
-                  duration: const Duration(milliseconds: 2000),
-                )
-              )     
+            child: Center(
+              child: Image.asset("assets/cross.png"),
             ),
+          ),
 
-            Expanded(
-              flex: 1,
-              child: (newUser) ? 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("Already have an account? ", style: TextStyle(fontSize: 20),),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        newUser = !newUser;
-                      });
-                    }, 
-                    child: const Text("Login", style: TextStyle(fontSize: 20))
+          const SizedBox(height: 10,),
+         
+          Expanded(
+            flex: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AnimatedCrossFade(
+                excludeBottomFocus: false,
+                firstChild: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width:  _width,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(20)
                   ),
-                          
-                ],
-              ) : 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("New user? ", style: TextStyle(fontSize: 20),),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        newUser = !newUser;
-                      });
-                    }, 
-                    child: const Text("Register", style: TextStyle(fontSize: 20))
-                  ),
-            
-                ],
+                  child: (showForm) ? null : const Align(alignment: Alignment.center,child: Text("WELCOME", style: TextStyle(fontSize: 30))),
+                  
+                ), 
+                secondChild: (newUser) ? register() : login(), 
+                crossFadeState: (!showForm) ? CrossFadeState.showFirst : CrossFadeState.showSecond, 
+                duration: const Duration(milliseconds: 2000),
               )
+            )     
+          ),
+      
+          Expanded(
+            flex: 1,
+            child: (newUser) ? 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("Already have an account? ", style: TextStyle(fontSize: 20),),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      newUser = !newUser;
+                    });
+                  }, 
+                  child: const Text("Login", style: TextStyle(fontSize: 20))
+                ),
+                        
+              ],
+            ) : 
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("New user? ", style: TextStyle(fontSize: 20),),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      newUser = !newUser;
+                    });
+                  }, 
+                  child: const Text("Register", style: TextStyle(fontSize: 20))
+                ),
+          
+              ],
             )
-        
-          ],
-        ),
+          )
+      
+        ],
       ),
     );
   }

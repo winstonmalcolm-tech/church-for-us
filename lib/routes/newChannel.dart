@@ -27,7 +27,8 @@ class _NewChannelState extends State<NewChannel> {
         "churchName": churchName.text,
         "country":country.text,
         "createdBy": _viewer.docID,
-        "subscribers": []
+        "subscribers": [],
+        "events": []
     });
 
     String docID = ref.id;
@@ -107,38 +108,33 @@ class _NewChannelState extends State<NewChannel> {
         
               const SizedBox(height: 20,),
         
-              SizedBox(
-                height: 60,
-                width: 200,
-                child: (_isLoading) ? const SizedBox(height: 60, width: 60,child: CircularProgressIndicator()) : ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
-                    foregroundColor: Colors.white,
-                    fixedSize: const Size(150, 60)
+              (_isLoading) ? const Center(child: CircularProgressIndicator()): ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber,
+                  foregroundColor: Colors.white,
+                  fixedSize: const Size(150, 60)
+                ),
+                onPressed: () async { 
+                    if (!_newChannelFormKey.currentState!.validate()) {
+                      return;
+                    }
+                    
+                    setState(() {
+                      _isLoading = !_isLoading;
+                    });
+                    
+                    await newChannel();
               
-                  ),
-                  onPressed: () async { 
-                      if (!_newChannelFormKey.currentState!.validate()) {
-                        return;
-                      }
-                      
-                      setState(() {
-                        _isLoading = !_isLoading;
-                      });
-                      
-                      await newChannel();
-
-                      setState(() {
-                        _isLoading = !_isLoading;
-                      });
-                      
-                      churchName.text = "";
-                      country.text = "";
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Channel Created")));
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const ChurchDashboard()));
-                  }, 
-                  child: const Text("Add channel", style: TextStyle(fontSize: 20),)),
-              ),
+                    setState(() {
+                      _isLoading = !_isLoading;
+                    });
+                    
+                    churchName.text = "";
+                    country.text = "";
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Channel Created")));
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const ChurchDashboard()));
+                }, 
+                child: const Text("Add channel", style: TextStyle(fontSize: 20),)),
             ],
           )
         ),
