@@ -9,6 +9,7 @@ import 'package:church_stream/routes/videoCallPage.dart';
 import 'package:church_stream/services/notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -140,25 +141,34 @@ class _ChurchDashboardState extends State<ChurchDashboard> {
                       stream: FirebaseFirestore.instance.collection("videos").snapshots(), 
                       builder: (context, snapshot) {
                               
-                        if (snapshot.data == null || snapshot.data!.size < 1) {
+                        if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                           return const Center(
                             child: Text("No Videos", style: TextStyle(fontSize: 20)),
                           );
                         }
                         
-                        List<dynamic> videos = snapshot.data!.docs.reversed.toList();
-          
+                        List<dynamic> videos = snapshot.data!.docs.toList().where((element) {
+                          dynamic vid = element.data();
+                          return vid["churchDocID"] == futureSnapshot.data!.churchDocID;
+                          
+                        }).toList();
+
+                        if (videos.isEmpty) {
+                          return const Center(
+                            child: Text("No Videos", style: TextStyle(fontSize: 20)),
+                          );
+                        }
+
+                        
                         return ListView.separated(
                           itemCount: videos.length,
                           separatorBuilder: (context, index) => const SizedBox(height: 10,),
                           itemBuilder: (context, index) {
-          
-                            Video video = Video(churchDocID: videos[index]["churchDocID"], videoDocID: videos[index]["videoDocID"], isLive: videos[index]["isLive"], link: videos[index]["link"], title: videos[index]["title"], isConference: videos[index]["isConference"], churchName: videos[index]["churchName"]);
-          
-                            if (video.churchDocID == futureSnapshot.data!.churchDocID) {
-                              return churchCard(video);
-                            }
-                            return null;
+
+                            Video video = Video(videoDocID: videos[index]["videoDocID"], title: videos[index]["title"], churchDocID: videos[index]["churchDocID"], churchName: videos[index]["churchName"], isConference: videos[index]["isConference"], isLive: videos[index]["isLive"], link: videos[index]["link"]);
+               
+                            return churchCard(video);
+
                           },
                         
                         );
@@ -532,6 +542,7 @@ class _ChurchDashboardState extends State<ChurchDashboard> {
 
                       NotificationService.sendNotification(church.subscribers, "New event", "${titleController.text} on ${dateController.text}", {"churchDocID": church.churchDocID, "notificationType": "Event"});
 
+
                       titleController.text = "";
                       timeController.text = "";
                       dateController.text = "";
@@ -639,9 +650,9 @@ class _ChurchDashboardState extends State<ChurchDashboard> {
         if (video.isLive) {
 
           if (video.isConference) {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_)=> VideoCallPage(callID: video.link, isHost: false, videoDocID: null,)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_)=> VideoCallPage(callID: video.link, isHost: true, videoDocID: video.videoDocID,)));
           } else {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => LiveStream(liveID: video.link, isHost: false, videoDocID: null)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => LiveStream(liveID: video.link, isHost: true, videoDocID: video.videoDocID)));
           }
         } else {
           _showAlertDialog(context);

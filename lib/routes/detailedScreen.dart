@@ -185,13 +185,14 @@ class _SingleChurchState extends State<SingleChurch> {
                   stream: FirebaseFirestore.instance.collection("videos").snapshots(),
                   builder: (context, snapshot) {
 
-                      if (!snapshot.hasData) {
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                         return const Center(
                           child: Text("No videos", style: TextStyle(fontSize: 20),),
                         );
                       }
 
-                      List<dynamic> videos = snapshot.data!.docs.reversed.toList();
+                      List<dynamic> videos = snapshot.data!.docs.toList().where((video) => video["churchDocID"] == widget.church.churchDocID).toList();
+                
                 
                       return ListView.separated(
                         itemCount: videos.length,
@@ -199,11 +200,7 @@ class _SingleChurchState extends State<SingleChurch> {
                         itemBuilder: (context, index) {
                             Video video = Video(churchDocID: videos[index]["churchDocID"], videoDocID: videos[index]["videoDocID"], isLive: videos[index]["isLive"], link: videos[index]["link"], title: videos[index]["title"], isConference: videos[index]["isConference"], churchName: videos[index]["churchName"]);
 
-                            if (video.churchDocID == widget.church.churchDocID) {
-                              return churchCard(video);
-                            }
-
-                            return null;
+                            return churchCard(video);
                         },
                       );
                   }

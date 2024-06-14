@@ -38,20 +38,24 @@ class _LiveStreamState extends State<LiveStream> {
           liveID: widget.liveID,
           events: ZegoUIKitPrebuiltLiveStreamingEvents(
             onEnded: (event, defaultAction) {
-              defaultAction.call();
+
               if (event.reason == ZegoLiveStreamingEndReason.hostEnd) {
                 _showAlertDialog(context);
               }
-              
+
+              defaultAction.call();
             },
             onLeaveConfirmation: (event, defaultAction) async {
-              final token = RootIsolateToken.instance;
-              Map<String,dynamic> info ={"videoDocID": widget.videoDocID, "token": token, "recordedData": {"isLive": false, "link":"https://"}};
+              if (widget.isHost) {
+                final token = RootIsolateToken.instance;
+                Map<String,dynamic> info ={"videoDocID": widget.videoDocID, "token": token, "recordedData": {"isLive": false, "link":"https://"}};
 
-              await Isolate.spawn(streamCloseHandler, info);
-              
+                await Isolate.spawn(streamCloseHandler, info);
+              }
+
               return defaultAction.call();
             },
+
           ),
           config: widget.isHost
               ? ZegoUIKitPrebuiltLiveStreamingConfig.host()

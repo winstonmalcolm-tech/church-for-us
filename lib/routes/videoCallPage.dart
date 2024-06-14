@@ -31,18 +31,21 @@ class _VideoCallPageState extends State<VideoCallPage> {
         userID: Provider.of<Viewer>(context).docID, 
         userName: '${Provider.of<Viewer>(context).firstName} ${Provider.of<Viewer>(context).lastName}', 
         config: ZegoUIKitPrebuiltVideoConferenceConfig(
-          
-          onLeaveConfirmation: (context) async {
-            final token = RootIsolateToken.instance;
-            Map<String,dynamic> info ={"videoDocID": widget.videoDocID, "token": token, "recordedData": {"isLive": false, "link":"https://"}};
+          onLeave: () async {
+            if (widget.videoDocID != null) {
+              final token = RootIsolateToken.instance;
+              Map<String,dynamic> info ={"videoDocID": widget.videoDocID, "token": token, "recordedData": {"isLive": false, "link":"https://"}};
 
-            await Isolate.spawn(handleMeetingClose, info);
-            return true;
+              await Isolate.spawn(handleMeetingClose, info);
+            }
+            
+            Navigator.of(context).pop();
           },
           turnOnCameraWhenJoining: true,
           turnOnMicrophoneWhenJoining: true,
           useSpeakerWhenJoining: true,
-          audioVideoViewConfig: ZegoPrebuiltAudioVideoViewConfig(useVideoViewAspectFill: true),
+          
+          audioVideoViewConfig: ZegoPrebuiltAudioVideoViewConfig(useVideoViewAspectFill: true,),
         ),
       ),
     );
@@ -56,5 +59,5 @@ Future<void> handleMeetingClose(Map<String,dynamic> data) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseFirestore.instance.collection("videos").doc(data["videoDocID"]).update(data["recordedData"]);
+  await FirebaseFirestore.instance.collection("videos").doc(data["videoDocID"]).update(data["recordedData"]).onError((error, stackTrace) => debugPrint("ERROR: $error"));
 } 

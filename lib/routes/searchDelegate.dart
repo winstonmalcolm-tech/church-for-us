@@ -1,5 +1,6 @@
 import 'package:church_stream/models/church.dart';
 import 'package:church_stream/models/viewer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,11 @@ class SearchChurchDelegate extends SearchDelegate<Church?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Placeholder();
+    if (searchResult == null) {
+      return Lottie.asset("assets/no_video.json");
+    }
+
+    return const SizedBox(width: 10, height: 10);
   }
 
   @override
@@ -85,53 +90,6 @@ class SearchChurchDelegate extends SearchDelegate<Church?> {
           );
         }
       },
-    );
-
-    
+    );  
   }
-
-    InkWell churchCard(String churchName, int subscribersCount, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-       
-      },
-      child: Container(
-        height: 300,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black45),
-          borderRadius: const BorderRadius.all(Radius.circular(20))
-        ),
-        child: Column(
-          children: [
-            Container(
-                height: 200,
-                decoration: const BoxDecoration(
-                  color: Colors.black54,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))
-                ),
-                width: MediaQuery.of(context).size.width,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(topRight: Radius.circular(20), 
-                  topLeft: Radius.circular(20)),
-                  child: Image.asset("assets/praise.jpg", fit: BoxFit.cover, )
-                )
-              ),
-      
-            ListTile(
-              tileColor: Colors.white,
-              title: Text(churchName),
-              subtitle: Text("$subscribersCount"),
-              trailing: OutlinedButton(
-                onPressed: (){
-      
-                }, 
-                child: const Text("Subscribe", style: TextStyle(color: Colors.amber),),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-  
 }

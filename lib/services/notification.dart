@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 class NotificationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  static Uri sendNotificationEndpoint = Uri.parse("http://192.168.1.10:8000/send"); 
+  static Uri sendNotificationEndpoint = Uri.parse("https://church-cast-api.onrender.com/send"); 
 
   static Future<void> sendNotification(List<dynamic> deviceTokens, String title, String message, Map<String,String> data) async {
 
@@ -30,7 +30,6 @@ class NotificationService {
         "data": data,
       })
     );
-
   }
 
   static void initializeLocalNotification() {

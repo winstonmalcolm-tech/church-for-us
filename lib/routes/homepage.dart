@@ -97,6 +97,7 @@ class _HomeState extends State<Home> {
         
             if (Provider.of<Viewer>(context, listen: false).role == "user")
               ListTile(
+                leading: const Icon(Icons.movie_creation_rounded),
                 title: const Text("Create a channel"),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => const NewChannel()));

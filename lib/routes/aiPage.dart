@@ -9,8 +9,6 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-//AIzaSyAw5qUB5GnU3hHXfxiLdavOe4xJdqcsHTk
-
 class AIPage extends StatefulWidget {
   final String firstName;
   final String docID;

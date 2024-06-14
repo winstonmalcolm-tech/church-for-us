@@ -27,9 +27,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void listenMessageInForeground() {  
 
-    Map<String,String> payload = {};
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      Map<String,String> payload = {};
       
       if (message.notification != null) {
 

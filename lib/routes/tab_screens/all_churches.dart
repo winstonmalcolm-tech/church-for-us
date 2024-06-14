@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:church_stream/models/video.dart";
 import "package:church_stream/models/viewer.dart";
 import "package:church_stream/routes/liveStream.dart";
@@ -41,6 +43,12 @@ class _AllChurchesState extends State<AllChurches> {
               }
 
               List<dynamic> videos = snapshot.data!.docs.toList().where((video) => video["isConference"] == false).toList();
+
+              if(videos.isEmpty) {
+                return Center(
+                    child: Lottie.asset("assets/no_video.json", height: 250)
+                );
+              }
 
               return ListView.separated(
                 itemCount: videos.length,

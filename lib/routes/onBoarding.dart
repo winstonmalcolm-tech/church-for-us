@@ -7,12 +7,6 @@ import "package:permission_handler/permission_handler.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
 
-/**
- * Attributes
- * <a href="https://storyset.com/internet">Internet illustrations by Storyset</a>
- * <a href="https://storyset.com/technology">Technology illustrations by Storyset</a>
- */
-
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
 
@@ -22,7 +16,7 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen>{
 
-  final displayOneText = "CHURCHFORUS";
+  final displayOneText = "Church Cast";
   final displayTwoText = "Busy? Tune in the sermon from anywhere and never miss a message from the word of God.";
   final displayThreeText = "Host meetings in the app";
   final displayFourText = "Rewatch meetings and church streams anytime, anywhere.";
@@ -159,7 +153,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>{
             children: [ 
               Lottie.asset("assets/animated_church.json", height: 350),
               const SizedBox(height: 20,),
-              Text(displayOneText, style: GoogleFonts.mulish(textStyle: const TextStyle(fontSize: 30)),)
+              Text(displayOneText, style: GoogleFonts.mulish(textStyle: const TextStyle(fontSize: 40)),)
             ],
           ),
         ),
